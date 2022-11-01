@@ -1,5 +1,12 @@
 import "./App.css";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useCycle,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { useState } from "react";
 const containerVariants = {
   hidden: {
@@ -55,23 +62,83 @@ const pathVariants = {
   hidden: {
     opacity: 0,
     pathLength: 0,
+    pathOffset: 1,
+    strokeOpacity: 0,
   },
   visible: {
     opacity: 1,
     pathLength: 1,
+    strokeOpacity: 1,
+    pathOffset: 0,
     transition: {
       duration: 2,
       ease: "easeInOut",
     },
   },
 };
+const loaderVariants = {
+  animationOne: {
+    x: [-20, 20],
+    y: [0, -30],
+    backgroundColor: "red",
+    transition: {
+      x: {
+        yoyo: Infinity,
+        duration: 0.5,
+      },
+      y: {
+        yoyo: Infinity,
+        duration: 0.25,
+        ease: "easeOut",
+      },
+    },
+  },
+  animationTwo: {
+    y: [0, -40],
+    x: 0,
+    rotate: 360,
+    transition: {
+      y: {
+        yoyo: Infinity,
+        duration: 0.25,
+        ease: "easeOut",
+        stiffness: 1400,
+        damping: 100,
+      },
+    },
+  },
+};
+const ItemComponent = () => {
+  const [animation, cycleAnimation] = useCycle("animationOne", "animationTwo");
+  const { scrollYProgress } = useScroll();
+  const x = useTransform(scrollYProgress, [0, 1], [0, 600]);
+  return (
+    <>
+      <motion.div
+        // style={{ width: "100px", height: "100px" }}
+        variants={loaderVariants}
+        animate={animation}
+      >
+        ItemComponent
+      </motion.div>
+      <motion.div
+        style={{ backgroundColor: "red", width: "200px", height: "200px", x }}
+      >
+        12333122
+      </motion.div>
+      <div onClick={() => cycleAnimation()}>onClick</div>
+    </>
+  );
+};
 function App() {
   const [showTitle, setShowTitle] = useState(true);
+  const control = useAnimation();
   setTimeout(() => {
     setShowTitle(false);
   }, 4000);
   return (
     <motion.div animate={{ marginTop: 100 }} className="App">
+      <ItemComponent />
       <motion.h2
         style={{ backgroundColor: "red", width: "100px", height: "100px" }}
         animate={{ x: 1000, color: "yellow", rotateY: 180, opacity: 0.5 }}
@@ -86,6 +153,15 @@ function App() {
         alt=""
       /> */}
       <motion.svg
+        // drag="x" // or 'y'
+        drag // kéo thả nè
+        dragConstraints={{
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+        }} // không được kéo quá phạm vi này
+        dragElastic={2} //  cho phép kéo đi bất kỳ đâu nhưng khi bỏ ra nó vẫn quay lại chỗ cũ
         variants={svgVariants}
         initial="hidden"
         animate="visible"
@@ -103,7 +179,21 @@ function App() {
           fill="black"
         />
       </motion.svg>
-
+      <motion.div
+        style={{ width: "50px", height: "50px" }}
+        animate={{
+          scale: [1, 1.4, 1.4, 1, 1],
+          borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+          rotate: [0, 0, 270, 270, 0], // or 0 200 200 0
+          backgroundColor: "red",
+        }}
+        transition={{
+          yoyo: Infinity,
+          duration: 2,
+        }}
+      >
+        ppp
+      </motion.div>
       <AnimatePresence>
         {showTitle && <motion.h1 exit={{ y: -1000 }}>title 123</motion.h1>}
         {showTitle && (
@@ -132,12 +222,84 @@ function App() {
       >
         Create Your Pizza
       </motion.button>
+      <button
+        onClick={() => {
+          control.start({
+            x: "100%",
+            transition: {
+              duration: 2,
+            },
+          });
+        }}
+      >
+        Move Right
+      </button>
+      <button
+        onClick={() => {
+          control.start({
+            x: 0,
+            transition: {
+              duration: 2,
+              delay: 1,
+              bounce: 5,
+              type: "spring",
+              // velocity: 40,
+            },
+          });
+        }}
+      >
+        Move Left
+      </button>
+      <button
+        onClick={() => {
+          control.start({
+            borderRadius: "50%",
+            transition: {
+              duration: 1,
+            },
+          });
+        }}
+      >
+        Move Circle
+      </button>
+      <button
+        onClick={() => {
+          control.start({
+            borderRadius: 0,
+            transition: {
+              duration: 1,
+            },
+          });
+        }}
+      >
+        Move Square
+      </button>
+      <motion.div
+        animate={control}
+        style={{ width: "200px", height: "200px", backgroundColor: "red" }}
+      >
+        fff
+      </motion.div>
       <motion.button
+        // transition={{
+        //   layout: {
+        //     duration: 1,
+        //     type: "spring",
+        //   },
+        // }}
+        // layout
         variants={buttonVariants}
         animate="visible"
         whileHover="hover"
+        drag
+        whileDrag={{
+          scale: 5,
+        }}
+        whileTap={{
+          scale: 3.9,
+        }}
       >
-        123
+        button 123456
       </motion.button>
       <motion.p whileHover={{ scale: 2.3, color: "red" }}>li1</motion.p>
     </motion.div>
