@@ -72,7 +72,8 @@ const pathVariants = {
     pathOffset: 0,
     transition: {
       duration: 2,
-      ease: "easeInOut",
+      // ease: "easeInOut",
+      ease: [0.6, 0.01, -0.05, 0.95],
     },
   },
 };
@@ -288,6 +289,7 @@ function App() {
         //   },
         // }}
         // layout
+        onAnimationComplete={() => console.log("123")}
         variants={buttonVariants}
         animate="visible"
         whileHover="hover"
