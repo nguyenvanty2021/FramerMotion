@@ -1,13 +1,19 @@
 import "./App.css";
+import "./styles.css";
 import {
   AnimatePresence,
   motion,
   useAnimation,
   useCycle,
+  useMotionValue,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { useState } from "react";
+import { Footer } from "./Scroll/template/Footer";
+import { LoremIpsum } from "./Scroll/components/LoremIpsum";
+
 const containerVariants = {
   hidden: {
     opacity: 0,
@@ -113,6 +119,8 @@ const ItemComponent = () => {
   const [animation, cycleAnimation] = useCycle("animationOne", "animationTwo");
   const { scrollYProgress } = useScroll();
   const x = useTransform(scrollYProgress, [0, 1], [0, 600]);
+  const x1 = useMotionValue(0);
+  const opacity = useTransform(x1, [-100, 0, 100], [0, 1, 0]);
   return (
     <>
       <motion.div
@@ -128,18 +136,28 @@ const ItemComponent = () => {
         12333122
       </motion.div>
       <div onClick={() => cycleAnimation()}>onClick</div>
+      <motion.div drag="x" style={{ x1, opacity }}>
+        div finish 1
+      </motion.div>
     </>
   );
 };
 function App() {
   const [showTitle, setShowTitle] = useState(true);
   const control = useAnimation();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
   setTimeout(() => {
     setShowTitle(false);
   }, 4000);
   return (
     <motion.div animate={{ marginTop: 100 }} className="App">
       <ItemComponent />
+
       <motion.h2
         style={{ backgroundColor: "red", width: "100px", height: "100px" }}
         animate={{ x: 1000, color: "yellow", rotateY: 180, opacity: 0.5 }}
@@ -275,6 +293,7 @@ function App() {
       >
         Move Square
       </button>
+
       <motion.div
         animate={control}
         style={{ width: "200px", height: "200px", backgroundColor: "red" }}
@@ -304,6 +323,12 @@ function App() {
         button 123456
       </motion.button>
       <motion.p whileHover={{ scale: 2.3, color: "red" }}>li1</motion.p>
+      <motion.div className="progress-bar" style={{ scaleX }} />
+      <h1>
+        <code>useScroll</code> with spring smoothing
+      </h1>
+      <LoremIpsum />
+      <Footer title="useScroll with spring smoothing" />
     </motion.div>
   );
 }
