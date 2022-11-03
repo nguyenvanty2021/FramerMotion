@@ -10,7 +10,6 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useRef } from "react";
 import { useState } from "react";
 import { Footer } from "./Scroll/template/Footer";
 import { LoremIpsum } from "./Scroll/components/LoremIpsum";
@@ -244,6 +243,12 @@ function AppV2() {
       </Link>
       <Link to="/v2">
         <a>landing page v2</a>
+      </Link>
+      <Link to="/v3">
+        <a>landing page v3</a>
+      </Link>
+      <Link to="/v4">
+        <a>landing page v4</a>
       </Link>
       <motion.svg
         // drag="x" // or 'y'
