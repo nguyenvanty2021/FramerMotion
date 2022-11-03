@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppV10 from "./AppV10";
 import AppV11 from "./AppV11";
 import AppV12 from "./AppV12";
+import AppV13 from "./AppV13";
 import AppV2 from "./AppV2";
 import AppV3 from "./AppV3";
 import AppV4 from "./AppV4";
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/v9" element={<AppV10 />}></Route>
         <Route path="/v10" element={<AppV11 />}></Route>
         <Route path="/v11" element={<AppV12 />}></Route>
+        <Route path="/v12" element={<AppV13 />}></Route>
       </Routes>
     </BrowserRouter>
   );
