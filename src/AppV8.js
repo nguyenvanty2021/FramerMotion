@@ -1,4 +1,4 @@
-import "./styles6.css";
+// import "./styles6.css";
 import * as React from "react";
 import { useState } from "react";
 import { Reorder } from "framer-motion";

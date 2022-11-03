@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppV10 from "./AppV10";
 import AppV2 from "./AppV2";
 import AppV3 from "./AppV3";
 import AppV4 from "./AppV4";
@@ -7,6 +8,7 @@ import AppV5 from "./AppV5";
 import AppV6 from "./AppV6";
 import AppV7 from "./AppV7";
 import AppV8 from "./AppV8";
+import { AppV9 } from "./AppV9";
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
         <Route path="/v5" element={<AppV6 />}></Route>
         <Route path="/v6" element={<AppV7 />}></Route>
         <Route path="/v7" element={<AppV8 />}></Route>
+        <Route path="/v8" element={<AppV9 />}></Route>
+        <Route path="/v9" element={<AppV10 />}></Route>
       </Routes>
     </BrowserRouter>
   );

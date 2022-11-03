@@ -259,6 +259,12 @@ function AppV2() {
       <Link to="/v7">
         <a>landing page v7</a>
       </Link>
+      <Link to="/v8">
+        <a>landing page v8</a>
+      </Link>
+      <Link to="/v9">
+        <a>landing page v9</a>
+      </Link>
       <motion.svg
         // drag="x" // or 'y'
         drag // kéo thả nè
