@@ -1,4 +1,4 @@
-import "./styles8.css";
+// import "./styles8.css";
 import { useRef } from "react";
 import { useAnimationFrame } from "framer-motion";
 
